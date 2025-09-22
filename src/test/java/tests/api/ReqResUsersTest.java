@@ -1,22 +1,28 @@
 package tests.api;
 
+import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class CoinDeskPriceTest {
+public class ReqResUsersTest {
 
     @Test
-    public void btcPrice_feedRespondsWithUsdRate() {
-        // CoinCap public endpoint - very stable
+    public void createPost_returns201_andEchoesTitle() {
+        // Using JSONPlaceholder (public test API): POST returns 201
+        String payload = """
+            { "title": "qa-sample", "body": "demo", "userId": 1 }
+        """;
+
         given()
+            .contentType(ContentType.JSON)
+            .body(payload)
         .when()
-            .get("https://api.coincap.io/v2/assets/bitcoin")
+            .post("https://jsonplaceholder.typicode.com/posts")
         .then()
-            .statusCode(200)
-            .body("data.id", equalTo("bitcoin"))
-            .body("data.priceUsd", not(isEmptyOrNullString()))
-            .body("data.changePercent24Hr", not(isEmptyOrNullString()));
+            .statusCode(201)
+            .body("title", equalTo("qa-sample"))
+            .body("id", notNullValue());
     }
 }
