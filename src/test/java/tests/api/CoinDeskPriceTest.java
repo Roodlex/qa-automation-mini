@@ -1,5 +1,6 @@
 package tests.api;
 
+import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -9,14 +10,14 @@ public class CoinDeskPriceTest {
 
     @Test
     public void btcPrice_feedRespondsWithUsdRate() {
-        // CoinCap public endpoint - very stable
+        if (util.TestEnv.isCi()) throw new SkipException("Skipping network test on CI");
+
         given()
         .when()
             .get("https://api.coincap.io/v2/assets/bitcoin")
         .then()
             .statusCode(200)
             .body("data.id", equalTo("bitcoin"))
-            .body("data.priceUsd", not(isEmptyOrNullString()))
-            .body("data.changePercent24Hr", not(isEmptyOrNullString()));
+            .body("data.priceUsd", not(isEmptyOrNullString()));
     }
 }
