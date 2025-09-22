@@ -15,7 +15,9 @@ public class LoginPage {
     public void open() { driver.get("https://www.saucedemo.com/"); }
 
     public void login(String username, String password) {
+        driver.findElement(user).clear();
         driver.findElement(user).sendKeys(username);
+        driver.findElement(pass).clear();
         driver.findElement(pass).sendKeys(password);
         driver.findElement(loginBtn).click();
     }
