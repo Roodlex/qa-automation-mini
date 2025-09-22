@@ -24,13 +24,6 @@ jobs:
         id: setup-chromedriver
         uses: browser-actions/setup-chromedriver@v1
 
-      - name: Print versions
-        run: |
-          echo "Chrome path: ${{ steps.setup-chrome.outputs.chrome-path }}"
-          ${{ steps.setup-chrome.outputs.chrome-path }} --version
-          echo "ChromeDriver path: ${{ steps.setup-chromedriver.outputs.chromedriver-path }}"
-          ${{ steps.setup-chromedriver.outputs.chromedriver-path }} --version
-
       - name: Export env for tests
         run: |
           echo "CHROME_BIN=${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_ENV
