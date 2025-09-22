@@ -13,26 +13,36 @@ public class UiTest {
 
     @BeforeClass
     public void setup() {
-        // Use Chrome installed by GitHub Actions (set in ci.yml)
+        // Paths injected from GitHub Actions workflow
         String chromeBin = System.getenv("CHROME_BIN");
+        String driverPath = System.getenv("CHROMEDRIVER");
+
+        if (driverPath != null && !driverPath.isBlank()) {
+            System.setProperty("webdriver.chrome.driver", driverPath);
+        }
+
         ChromeOptions options = new ChromeOptions();
         if (chromeBin != null && !chromeBin.isBlank()) {
             options.setBinary(chromeBin);
         }
+
+        // headless, lightweight flags for CI runners
         options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage");
 
-        // Selenium 4 will resolve the matching driver automatically
         driver = new ChromeDriver(options);
     }
 
     @AfterClass(alwaysRun = true)
     public void teardown() {
-        if (driver != null) driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
     public void openGoogleHomePage() {
         driver.get("https://www.google.com");
-        Assert.assertTrue(driver.getTitle().toLowerCase().contains("google"));
+        Assert.assertTrue(driver.getTitle().toLowerCase().contains("google"),
+                "Google homepage did not load correctly");
     }
 }
