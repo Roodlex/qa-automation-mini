@@ -9,17 +9,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+
       - name: Setup Chrome
         id: setup-chrome
         uses: browser-actions/setup-chrome@v1
+
+      # NEW: install the matching ChromeDriver
+      - name: Setup ChromeDriver
+        uses: browser-actions/setup-chromedriver@v1
+
       - name: Print Chrome version
         run: ${{ steps.setup-chrome.outputs.chrome-path }} --version
+
       - name: Set CHROME_BIN env
         run: echo "CHROME_BIN=${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_ENV
+
       - name: Build & Test
         run: mvn -B -ntp test
