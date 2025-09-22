@@ -17,3 +17,7 @@ Minimal demo framework showing API, UI and sample tests with a CI pipeline.
 ## How to Run
 ```bash
 mvn test
+## **Mini Projects**
+ReqRes Users API: GET+schema, POST create → validates status, payload, schema.
+CoinDesk BTC Price: Price feed sanity (non-zero rate, ISO timestamp).
+Sauce Demo UI: Negative login, happy path login, add-to-cart (Page Objects).
