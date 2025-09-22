@@ -8,11 +8,7 @@
   <test name="UI">
     <packages>
       <package name="tests.ui"/>
-    </packages>
-  </test>
-  <test name="LegacySamples">
-    <packages>
-      <package name="tests"/>
+      <package name="tests"/> <!-- keeps UiTest -->
     </packages>
   </test>
 </suite>
