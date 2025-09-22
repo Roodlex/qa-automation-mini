@@ -2,6 +2,10 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class InventoryPage {
     private final WebDriver driver;
@@ -13,6 +17,8 @@ public class InventoryPage {
     public void addFirstItemToCart() { driver.findElement(firstAddToCart).click(); }
 
     public int getCartCount() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(cartBadge));
         return Integer.parseInt(driver.findElement(cartBadge).getText());
     }
 }
