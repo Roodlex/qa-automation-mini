@@ -20,15 +20,23 @@ jobs:
         id: setup-chrome
         uses: browser-actions/setup-chrome@v1
 
-      # NEW: install the matching ChromeDriver
       - name: Setup ChromeDriver
+        id: setup-chromedriver
         uses: browser-actions/setup-chromedriver@v1
 
-      - name: Print Chrome version
-        run: ${{ steps.setup-chrome.outputs.chrome-path }} --version
+      - name: Print versions
+        run: |
+          echo "Chrome path: ${{ steps.setup-chrome.outputs.chrome-path }}"
+          ${{ steps.setup-chrome.outputs.chrome-path }} --version
+          echo "ChromeDriver path: ${{ steps.setup-chromedriver.outputs.chromedriver-path }}"
+          ${{ steps.setup-chromedriver.outputs.chromedriver-path }} --version
 
-      - name: Set CHROME_BIN env
-        run: echo "CHROME_BIN=${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_ENV
+      - name: Export env for tests
+        run: |
+          echo "CHROME_BIN=${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_ENV
+          echo "CHROMEDRIVER=${{ steps.setup-chromedriver.outputs.chromedriver-path }}" >> $GITHUB_ENV
 
       - name: Build & Test
+        env:
+          MAVEN_OPTS: "-Dwebdriver.chrome.driver=${{ steps.setup-chromedriver.outputs.chromedriver-path }}"
         run: mvn -B -ntp test
