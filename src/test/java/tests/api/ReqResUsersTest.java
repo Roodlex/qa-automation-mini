@@ -1,6 +1,7 @@
 package tests.api;
 
 import io.restassured.http.ContentType;
+import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -10,9 +11,10 @@ public class ReqResUsersTest {
 
     @Test
     public void createPost_returns201_andEchoesTitle() {
-        // Using JSONPlaceholder (public test API): POST returns 201
+        if (util.TestEnv.isCi()) throw new SkipException("Skipping network test on CI");
+
         String payload = """
-            { "title": "qa-sample", "body": "demo", "userId": 1 }
+          { "title": "qa-sample", "body": "demo", "userId": 1 }
         """;
 
         given()
