@@ -70,19 +70,20 @@
       </plugin>
 
       <!-- Surefire plugin for TestNG -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
-        <configuration>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
-          <systemPropertyVariables>
-            <file.encoding>UTF-8</file.encoding>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>
+     <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-surefire-plugin</artifactId>
+  <version>3.2.5</version>
+  <configuration>
+    <!-- Run exactly what we list in TestNG suite -->
+    <suiteXmlFiles>
+      <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+    </suiteXmlFiles>
+    <systemPropertyVariables>
+      <file.encoding>UTF-8</file.encoding>
+    </systemPropertyVariables>
+  </configuration>
+</plugin>
     </plugins>
   </build>
 </project>
