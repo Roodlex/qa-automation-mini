@@ -16,20 +16,15 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      # Install Chrome only
       - name: Setup Chrome
         id: setup-chrome
         uses: browser-actions/setup-chrome@v1
 
-      - name: Setup ChromeDriver
-        id: setup-chromedriver
-        uses: browser-actions/setup-chromedriver@v1
+      # (optional) show version so we know what’s installed
+      - name: Print Chrome version
+        run: ${{ steps.setup-chrome.outputs.chrome-path }} --version
 
-      - name: Export env for tests
-        run: |
-          echo "CHROME_BIN=${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_ENV
-          echo "CHROMEDRIVER=${{ steps.setup-chromedriver.outputs.chromedriver-path }}" >> $GITHUB_ENV
-
+      # Only run tests (Selenium Manager will download the correct driver if needed)
       - name: Build & Test
-        env:
-          MAVEN_OPTS: "-Dwebdriver.chrome.driver=${{ steps.setup-chromedriver.outputs.chromedriver-path }}"
         run: mvn -B -ntp test
