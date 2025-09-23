@@ -1,7 +1,9 @@
 
 # QA Automation Sample (TestNG + Selenium + RestAssured)
 
-![CI](https://github.com/Roodlex/qa-automation-mini/actions/workflows/ci.yml/badge.svg?branch=main)
+[![CI](https://img.shields.io/github/actions/workflow/status/Roodlex/qa-automation-mini/ci.yml?branch=main)](https://github.com/Roodlex/qa-automation-mini/actions/workflows/ci.yml)
+
+
 
 
 Minimal demo framework showing API, UI and sample tests with a CI pipeline.
